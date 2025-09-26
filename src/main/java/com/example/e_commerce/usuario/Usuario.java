@@ -1,8 +1,13 @@
-package com.example.e_commerce.Usuario;
+package com.example.e_commerce.usuario;
 
 
+import com.example.e_commerce.pedido.Pedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,7 +23,9 @@ public class Usuario {
     private String senha;
     @Column(nullable = false)
     private String endereco;
-
+    @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
+    private List<Pedido> pedidos = new ArrayList<>();
 
 
 }
