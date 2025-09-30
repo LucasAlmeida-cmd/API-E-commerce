@@ -30,9 +30,25 @@
                  .csrf(AbstractHttpConfigurer::disable)
                  .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                  .authorizeHttpRequests(auth -> auth
+
                          .requestMatchers(HttpMethod.POST, "/login").permitAll()
                          .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                          .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                         .requestMatchers(HttpMethod.GET, "/pedidos/meus").authenticated()
+
+                         .requestMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN")
+                         .requestMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
+                         .requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
+                         .requestMatchers(HttpMethod.GET, "/pedidos/**").hasRole("ADMIN")
+
+
+                         .requestMatchers(HttpMethod.GET, "/produtos").permitAll()
+                         .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
+
+
+                         .requestMatchers(HttpMethod.POST, "/pedidos").authenticated()
+
                          .anyRequest().authenticated()
                  )
                  .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

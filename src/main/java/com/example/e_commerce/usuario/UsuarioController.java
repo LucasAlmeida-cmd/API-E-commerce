@@ -19,6 +19,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
         Usuario usuario1 = usuarioService.AdicionarUsuario(usuario);
+        usuario.setRole(Role.USER);
         return ResponseEntity.ok(usuario1);
     }
     @GetMapping()

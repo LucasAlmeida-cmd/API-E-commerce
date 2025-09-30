@@ -18,6 +18,7 @@ public class UsuarioService {
     public Usuario AdicionarUsuario(Usuario usuario) {
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
+        usuario.setRole(Role.USER);
         return usuarioRepository.save(usuario);
     }
 

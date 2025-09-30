@@ -43,10 +43,17 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     private List<Pedido> pedidos = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        if (this.role == Role.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
     }
 
     @Override
