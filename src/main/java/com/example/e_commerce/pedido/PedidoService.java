@@ -28,13 +28,9 @@ public class PedidoService {
 
 
     @Transactional
-    public Pedido criarPedido(PedidoRequestDTO pedidoRequestDTO) {
-
-        Usuario usuario = usuarioRepository.findById(pedidoRequestDTO.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuário com id: " + pedidoRequestDTO.getUsuarioId() + ", não encontrado."));
-
+    public Pedido criarPedido(PedidoRequestDTO pedidoRequestDTO, Usuario usuarioLogado) {
         Pedido novoPedido = new Pedido();
-        novoPedido.setUsuario(usuario);
+        novoPedido.setUsuario(usuarioLogado);
         novoPedido.setInstanteDoPedido(LocalDateTime.now());
         novoPedido.setStatusDoPedido(Status.AGUARDANDO_PAGAMENTO);
         novoPedido.setItens(new ArrayList<>());
@@ -54,9 +50,11 @@ public class PedidoService {
             );
 
             novoPedido.getItens().add(itemPedido);
+
             produto.setEstoque(produto.getEstoque() - itemDTO.getQuantidade());
             produtoRepository.save(produto);
         }
+
         return pedidoRepository.save(novoPedido);
     }
 
@@ -65,8 +63,8 @@ public class PedidoService {
        return pedidoRepository.findById(id);
     }
 
-    public List<Pedido> buscarPorUsuario(Long usuarioId) {
-        return pedidoRepository.findByUsuarioId(usuarioId);
+    public List<Pedido> buscarPorUsuario(Usuario usuarioLogado) {
+        return pedidoRepository.findByUsuarioId(usuarioLogado.getId());
     }
 
     public void apagarPedido(Long id) {

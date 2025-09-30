@@ -1,8 +1,11 @@
 package com.example.e_commerce.pedido;
 
+import com.example.e_commerce.usuario.Usuario;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +20,11 @@ public class PedidoController {
 
 
     @PostMapping
-    public ResponseEntity<Pedido> criarPedido(@RequestBody PedidoRequestDTO pedidoRequestDTO) {
-        Pedido novoPedido = pedidoService.criarPedido(pedidoRequestDTO);
+    public ResponseEntity<Pedido> criarPedido(
+            @RequestBody @Valid PedidoRequestDTO pedidoRequestDTO,
+            Authentication authentication) {
+        Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
+        Pedido novoPedido = pedidoService.criarPedido(pedidoRequestDTO, usuarioLogado);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoPedido);
     }
 
@@ -32,9 +38,10 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.buscarTodos());
     }
 
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<Pedido>> buscarPedidosPorUsuario(@PathVariable Long usuarioId) {
-        List<Pedido> pedidos = pedidoService.buscarPorUsuario(usuarioId);
+    @GetMapping("/meus")
+    public ResponseEntity<List<Pedido>> buscarPedidosPorUsuario(Authentication authentication) {
+        Usuario usuarioLogado = (Usuario) authentication.getPrincipal();
+        List<Pedido> pedidos = pedidoService.buscarPorUsuario(usuarioLogado);
         return ResponseEntity.ok(pedidos);
     }
 
