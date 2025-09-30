@@ -13,9 +13,14 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public Produto criarProduto(Produto produto) {
-        produtoRepository.save(produto);
-        return produto;
+    public Produto criarProduto(ProdutoCadastroDTO produto) {
+        Produto produtoNovo = new Produto();
+        produtoNovo.setEstoque(produto.getEstoque());
+        produtoNovo.setDescricao(produto.getDescricao());
+        produtoNovo.setNome(produto.getNome());
+        produtoNovo.setPreco(produto.getPreco());
+        produtoRepository.save(produtoNovo);
+        return produtoNovo;
     }
 
     public List<Produto> listarTodosProdutos() {

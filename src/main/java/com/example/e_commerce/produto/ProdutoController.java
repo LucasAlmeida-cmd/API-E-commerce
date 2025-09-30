@@ -15,7 +15,7 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping
-    public ResponseEntity<Produto> salvarProduto(@RequestBody Produto produto){
+    public ResponseEntity<Produto> salvarProduto(@RequestBody ProdutoCadastroDTO produto){
         return ResponseEntity.ok().body(produtoService.criarProduto(produto));
     }
 
