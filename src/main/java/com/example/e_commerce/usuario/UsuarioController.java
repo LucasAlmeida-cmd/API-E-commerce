@@ -1,6 +1,8 @@
 package com.example.e_commerce.usuario;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,9 @@ public class UsuarioController {
 
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody Usuario usuario) {
-        Usuario usuario1 = usuarioService.AdicionarUsuario(usuario);
-        usuario.setRole(Role.USER);
-        return ResponseEntity.ok(usuario1);
+    public ResponseEntity<Usuario> cadastrarUsuario(@RequestBody @Valid UsuarioCadastroDTO dados) {
+        Usuario novoUsuario = usuarioService.AdicionarUsuario(dados);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
     @GetMapping()
     public ResponseEntity<List<Usuario>> getUsuarios(){

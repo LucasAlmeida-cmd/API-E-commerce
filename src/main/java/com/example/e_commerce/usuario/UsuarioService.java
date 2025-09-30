@@ -15,11 +15,18 @@ public class UsuarioService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Usuario AdicionarUsuario(Usuario usuario) {
-        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
-        usuario.setSenha(senhaCriptografada);
-        usuario.setRole(Role.USER);
-        return usuarioRepository.save(usuario);
+    public Usuario AdicionarUsuario(UsuarioCadastroDTO dados) {
+
+        Usuario novoUsuario = new Usuario();
+        novoUsuario.setNome(dados.getNome());
+        novoUsuario.setEmail(dados.getEmail());
+        novoUsuario.setEndereco(dados.getEndereco());
+        novoUsuario.setRole(Role.USER);
+
+        String senhaCriptografada = passwordEncoder.encode(dados.getSenha());
+        novoUsuario.setSenha(senhaCriptografada);
+
+        return usuarioRepository.save(novoUsuario);
     }
 
     public List<Usuario> findAll() {
