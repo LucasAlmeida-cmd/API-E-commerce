@@ -1,5 +1,6 @@
 package com.example.e_commerce.usuario;
 
+import com.example.e_commerce.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,13 @@ public class UsuarioService {
     private PasswordEncoder passwordEncoder;
 
     public Usuario AdicionarUsuario(UsuarioCadastroDTO dados) {
-
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(dados.getNome());
         novoUsuario.setEmail(dados.getEmail());
         novoUsuario.setEndereco(dados.getEndereco());
         novoUsuario.setRole(Role.USER);
-
         String senhaCriptografada = passwordEncoder.encode(dados.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
-
         return usuarioRepository.save(novoUsuario);
     }
 
@@ -39,7 +37,7 @@ public class UsuarioService {
 
     public Usuario AtualizarUsuario(Long id, Usuario dadosParaAtualizar) {
         Usuario usuarioDoBanco = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário com ID " + id + " não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário com ID " + id + " não encontrado."));
         Optional<Usuario> usuarioComMesmoEmail = usuarioRepository.findByEmail(dadosParaAtualizar.getEmail());
         if (usuarioComMesmoEmail.isPresent() && !usuarioComMesmoEmail.get().getId().equals(usuarioDoBanco.getId())) {
             throw new RuntimeException("O e-mail '" + dadosParaAtualizar.getEmail() + "' já está em uso por outro usuário.");
