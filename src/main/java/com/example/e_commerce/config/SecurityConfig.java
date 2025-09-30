@@ -31,6 +31,7 @@
                  .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                  .authorizeHttpRequests(auth -> auth
                          .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                         .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                          .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                          .anyRequest().authenticated()
                  )
