@@ -1,4 +1,4 @@
-package com.example.e_commerce.login;
+package com.example.e_commerce.auth.DTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

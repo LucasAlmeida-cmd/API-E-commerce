@@ -1,7 +1,8 @@
-package com.example.e_commerce.login;
+package com.example.e_commerce.auth;
 
 
-import com.example.e_commerce.config.TokenService;
+import com.example.e_commerce.auth.DTOs.LoginRequestDTO;
+import com.example.e_commerce.auth.DTOs.TokenResponseDTO;
 import com.example.e_commerce.usuario.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

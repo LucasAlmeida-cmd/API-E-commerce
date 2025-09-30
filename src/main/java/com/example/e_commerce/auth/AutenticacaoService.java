@@ -1,4 +1,4 @@
-package com.example.e_commerce.login;
+package com.example.e_commerce.auth;
 
 import com.example.e_commerce.usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

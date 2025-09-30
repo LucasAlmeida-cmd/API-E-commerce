@@ -1,4 +1,4 @@
- package com.example.e_commerce.config;
+ package com.example.e_commerce.auth;
 
  import org.springframework.beans.factory.annotation.Autowired;
  import org.springframework.context.annotation.Bean;
