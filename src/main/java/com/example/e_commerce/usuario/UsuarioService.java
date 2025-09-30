@@ -1,6 +1,7 @@
 package com.example.e_commerce.usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,13 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Usuario AdicionarUsuario(Usuario usuario) {
-        usuarioRepository.save(usuario);
-        return usuario;
+        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senhaCriptografada);
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> findAll() {
