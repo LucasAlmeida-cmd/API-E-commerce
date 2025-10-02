@@ -30,25 +30,25 @@
                  .csrf(AbstractHttpConfigurer::disable)
                  .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                  .authorizeHttpRequests(auth -> {
-
-                     // --- 1. ENDPOINTS PÚBLICOS ---
+                     // --- 1. Endpoints Públicos ---
                      auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
-                     auth.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
+                     auth.requestMatchers(HttpMethod.POST, "/usuarios").permitAll(); // Cadastro é público
                      auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
-                     auth.requestMatchers(HttpMethod.GET, "/produtos").permitAll();
-                     auth.requestMatchers(HttpMethod.GET, "/produtos/**").permitAll();
+                     auth.requestMatchers(HttpMethod.GET, "/produtos", "/produtos/**").permitAll();
+                     auth.requestMatchers("/error").permitAll();
 
-                     // --- 2. ENDPOINTS DE ADMIN ---
+                     // --- 2. Endpoints de Usuário Autenticado ---
+                     auth.requestMatchers(HttpMethod.PUT, "/usuarios/**").authenticated();
+                     auth.requestMatchers(HttpMethod.GET, "/pedidos/meus").authenticated();
+                     auth.requestMatchers(HttpMethod.POST, "/pedidos").authenticated();
+
+                     // --- 3. Endpoints de Admin ---
                      auth.requestMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN");
                      auth.requestMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN");
+                     auth.requestMatchers(HttpMethod.PATCH, "/produtos/**").hasRole("ADMIN");
                      auth.requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN");
-                     auth.requestMatchers(HttpMethod.GET, "/pedidos/**").hasRole("ADMIN"); // CUIDADO: Esta regra bloqueia a visualização de pedidos para usuários normais. Podemos ajustar depois.
 
-                     // --- 3. ENDPOINTS DE USUÁRIO AUTENTICADO ---
-                     auth.requestMatchers(HttpMethod.POST, "/pedidos").authenticated();
-                     auth.requestMatchers(HttpMethod.GET, "/pedidos/meus").authenticated();
-
-                     // --- 4. REGRA FINAL ---
+                     // --- 4. Regra Final ---
                      auth.anyRequest().authenticated();
                  })
                  .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
