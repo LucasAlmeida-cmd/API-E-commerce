@@ -1,6 +1,7 @@
 package com.example.e_commerce.pedido;
 
 import com.example.e_commerce.Status;
+import com.example.e_commerce.exception.ResourceNotFoundException;
 import com.example.e_commerce.produto.Produto;
 import com.example.e_commerce.produto.ProdutoRepository;
 import com.example.e_commerce.usuario.Usuario;
@@ -37,10 +38,10 @@ public class PedidoService {
 
         for (ItemPedidoRequestDTO itemDTO : pedidoRequestDTO.getItens()) {
             Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
-                    .orElseThrow(() -> new RuntimeException("Produto com id: " + itemDTO.getProdutoId() + ", não encontrado."));
+                    .orElseThrow(() -> new ResourceNotFoundException("Produto com id: " + itemDTO.getProdutoId() + ", não encontrado."));
 
             if (produto.getEstoque() < itemDTO.getQuantidade()) {
-                throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
+                throw new ResourceNotFoundException ("Estoque insuficiente para o produto: " + produto.getNome());
             }
 
             ItemPedido itemPedido = new ItemPedido(

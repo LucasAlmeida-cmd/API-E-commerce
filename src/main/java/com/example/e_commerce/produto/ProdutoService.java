@@ -1,5 +1,6 @@
 package com.example.e_commerce.produto;
 
+import com.example.e_commerce.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class ProdutoService {
     @Transactional
     public void adicionarEstoque(Long id, Integer quantidade) {
         Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto com id: " + id + " não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto com id: " + id + " não encontrado."));
         produto.setEstoque(produto.getEstoque() + quantidade);
     }
 }

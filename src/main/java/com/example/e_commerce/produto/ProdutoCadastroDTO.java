@@ -1,9 +1,11 @@
 package com.example.e_commerce.produto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ProdutoCadastroDTO {
     @NotBlank(message = "O nome é obrigatório.")
     private String nome;

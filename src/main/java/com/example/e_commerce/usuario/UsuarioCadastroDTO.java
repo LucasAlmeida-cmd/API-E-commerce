@@ -3,9 +3,11 @@ package com.example.e_commerce.usuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class UsuarioCadastroDTO {
     @NotBlank(message = "O nome é obrigatório.")
     private String nome;
