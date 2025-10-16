@@ -1,10 +1,15 @@
 package com.example.e_commerce.produto;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -20,9 +25,12 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> listarProdutos(){
-        return produtoService.listarTodosProdutos();
+    public Page<Produto> listarProdutos(
+            @PageableDefault(size = 12, sort = "nome", direction = Sort.Direction.ASC) Pageable pageable){
+        return produtoService.listarTodosProdutos(pageable);
     }
+
+
     @GetMapping("/{id}")
     public Optional<Produto> buscarProduto(@PathVariable Long id){
         return produtoService.buscarPorId(id);

@@ -3,6 +3,8 @@ package com.example.e_commerce.produto;
 import com.example.e_commerce.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,8 @@ public class ProdutoService {
         return produtoNovo;
     }
 
-    public List<Produto> listarTodosProdutos() {
-        return produtoRepository.findAll();
+    public Page<Produto> listarTodosProdutos(Pageable pageable) {
+        return produtoRepository.findAll(pageable);
     }
 
     public Optional<Produto> buscarPorId(Long id) {
