@@ -28,12 +28,18 @@ public class SecurityFilter extends OncePerRequestFilter {
         var tokenJWT = recuperarToken(request);
 
         if (tokenJWT != null) {
-            var subject = tokenService.getSubject(tokenJWT);
-            UserDetails usuario = (UserDetails) usuarioRepository.findByEmail(subject).orElse(null);
+            try {
+                var subject = tokenService.getSubject(tokenJWT);
+                var usuario = usuarioRepository.findByEmail(subject).orElse(null);
 
-            if (usuario != null) {
-                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (usuario != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (Exception e) {
+                // Se o token for inválido ou expirado, apenas limpamos o contexto
+                // para que as rotas permitAll() continuem funcionando.
+                SecurityContextHolder.clearContext();
             }
         }
 
@@ -42,8 +48,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recuperarToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null) {
-            return authorizationHeader.replace("Bearer ", "");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.replace("Bearer ", "").trim();
         }
         return null;
     }

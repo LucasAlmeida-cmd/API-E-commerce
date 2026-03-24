@@ -1,13 +1,14 @@
 server:
+  port: 8092
   error:
     include-message: always
     include-binding-errors: always
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ecommerce_db
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://localhost:5432/portfolio_e_commerce_db
+    username:
+    password:
 
   jpa:
     hibernate:

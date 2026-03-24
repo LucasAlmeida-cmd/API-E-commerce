@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce API | Documentação</title>
+    <link rel="icon" type="image/png" th:href="@{/favicon.png}">
+    <style>
+        :root {
+            --bg-slate-900: #0f172a;
+            --bg-slate-800: #1e293b;
+            --text-slate-50: #f8fafc;
+            --text-slate-400: #94a3b8;
+            --indigo-500: #6366f1;
+            --indigo-600: #4f46e5;
+            --slate-700: #334155;
+        }
+
+        body {
+            background-color: var(--bg-slate-900);
+            color: var(--text-slate-50);
+            font-family: ui-sans-serif, system-ui, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 40px;
+        }
+
+        .tag {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--indigo-500);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1.5rem; }
+        .highlight { color: var(--indigo-500); }
+
+        .description {
+            font-size: 1.2rem;
+            color: var(--text-slate-400);
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-item {
+            background: var(--bg-slate-800);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--slate-700);
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--indigo-600);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover { background-color: var(--indigo-500); transform: translateY(-2px); }
+
+        .btn-secondary {
+            border: 1px solid var(--slate-700);
+            color: var(--text-slate-50);
+        }
+
+        .btn-secondary:hover { background: var(--bg-slate-800); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <span class="tag">Spring Boot REST API</span>
+    <h1>Nexus <span class="highlight">E-Commerce</span></h1>
+    <p class="description">
+        Uma API robusta e escalável para gerenciamento de vendas online.
+        Implementada com segurança JWT, persistência em PostgreSQL e documentação interativa.
+    </p>
+
+    <div class="features-grid">
+        <div class="feature-item">🔐 Autenticação Stateless (JWT)</div>
+        <div class="feature-item">📦 Gestão de Produtos e Estoque</div>
+        <div class="feature-item">🛒 Fluxo Completo de Pedidos</div>
+        <div class="feature-item">👤 Perfis de Admin e Usuário</div>
+    </div>
+
+    <div class="btn-group">
+        <a href="/swagger-ui/index.html" class="btn btn-primary">Explorar Documentação (Swagger)</a>
+        <a href="https://github.com/LucasAlmeida-cmd/API-E-commerce" target="_blank" class="btn btn-secondary">Ver Código no GitHub</a>
+    </div>
+</div>
+</body>
+</html>

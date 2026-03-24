@@ -6,6 +6,7 @@
  import org.springframework.http.HttpMethod;
  import org.springframework.security.config.annotation.web.builders.HttpSecurity;
  import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+ import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
  import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
  import org.springframework.security.web.SecurityFilterChain;
 
@@ -24,16 +25,17 @@
      @Autowired
      private SecurityFilter securityFilter;
 
+
      @Bean
      public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
          return http
                  .csrf(AbstractHttpConfigurer::disable)
                  .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                  .authorizeHttpRequests(auth -> {
-
+                     auth.requestMatchers("/", "/index.html", "/css/**", "/js/**", "/static/**").permitAll();
                      auth.requestMatchers(HttpMethod.POST, "/login").permitAll();
                      auth.requestMatchers(HttpMethod.POST, "/usuarios").permitAll();
-                     auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
+                     auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/v3/api-docs.yaml").permitAll();
                      auth.requestMatchers(HttpMethod.GET, "/produtos", "/produtos/**").permitAll();
                      auth.requestMatchers("/error").permitAll();
 
@@ -52,6 +54,21 @@
                  })
                  .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                  .build();
+     }
+
+     @Bean
+     public WebSecurityCustomizer webSecurityCustomizer() {
+         return (web) -> web.ignoring().requestMatchers(
+                 "/",
+                 "/index.html",
+                 "/static/**",
+                 "/css/**",
+                 "/js/**",
+                 "/images/**",
+                 "/swagger-ui/**",
+                 "/v3/api-docs/**",
+                 "/swagger-ui.html"
+         );
      }
 
      @Bean
