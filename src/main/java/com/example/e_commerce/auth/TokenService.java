@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date; // IMPORTANTE: Importar java.util.Date
+import java.util.Date;
 
 @Service
 public class TokenService {
